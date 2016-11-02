@@ -1,0 +1,15 @@
+FROM quay.io/pypa/manylinux1_x86_64
+MAINTAINER Virgil Security
+
+# Install swig using miniconda
+RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh
+ENV PATH /opt/conda/bin:$PATH
+RUN conda install -y swig
+
+# Install cmake binaries
+RUN wget --no-check-certificate https://cmake.org/files/v3.6/cmake-3.6.2-Linux-x86_64.tar.gz && \
+    tar xzf cmake-3.6.2-Linux-x86_64.tar.gz && \
+    cp cmake-3.6.2-Linux-x86_64/* /usr/ -rf && \
+    rm cmake-3.6.2-Linux-x86_64 -rf
